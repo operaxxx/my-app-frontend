@@ -1,11 +1,9 @@
-<script setup lang="ts">
-import BasicLayout from '@/components/layout/BasicLayout.vue'
-</script>
-
 <template>
-  <BasicLayout>
-    <RouterView />
-  </BasicLayout>
+  <router-view></router-view>
 </template>
 
-<style scoped></style>
+<style>
+#app {
+  height: 100vh;
+}
+</style>

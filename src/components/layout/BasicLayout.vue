@@ -1,77 +1,46 @@
 <script lang="ts" setup>
-import {
-  PieChartOutlined,
-  DesktopOutlined,
-  UserOutlined,
-  TeamOutlined,
-  FileOutlined,
-} from '@ant-design/icons-vue'
+
 import { ref } from 'vue'
+import SideMenu from './SideMenu.vue'
+import LayoutHeader from './LayoutHeader.vue'
+
 const collapsed = ref<boolean>(false)
-const selectedKeys = ref<string[]>(['1'])
+
 </script>
 
 <template>
-  <a-layout style="min-height: 100vh">
-    <a-layout-sider v-model:collapsed="collapsed" collapsible>
-      <div class="logo" />
-      <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-        <a-menu-item key="1">
-          <pie-chart-outlined />
-          <span>Option 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <desktop-outlined />
-          <span>Option 2</span>
-        </a-menu-item>
-        <a-sub-menu key="sub1">
-          <template #title>
-            <span>
-              <user-outlined />
-              <span>User</span>
-            </span>
-          </template>
-          <a-menu-item key="3">Tom</a-menu-item>
-          <a-menu-item key="4">Bill</a-menu-item>
-          <a-menu-item key="5">Alex</a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <template #title>
-            <span>
-              <team-outlined />
-              <span>Team</span>
-            </span>
-          </template>
-          <a-menu-item key="6">Team 1</a-menu-item>
-          <a-menu-item key="8">Team 2</a-menu-item>
-        </a-sub-menu>
-        <a-menu-item key="9">
-          <file-outlined />
-          <span>File</span>
-        </a-menu-item>
-      </a-menu>
+  <a-layout class="layout">
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null">
+      <div class="logo">
+        <img v-if="collapsed" src="@/assets/logo-small.svg" alt="Logo" class="logo-small" />
+        <template v-else>
+          <img src="@/assets/logo.svg" alt="Logo" />
+          <h1>Admin System</h1>
+        </template>
+      </div>
+      <SideMenu />
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0"> 我是 Header </a-layout-header>
-      <a-layout-content style="margin: 0 16px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>User</a-breadcrumb-item>
-          <a-breadcrumb-item>Bill</a-breadcrumb-item>
-        </a-breadcrumb>
-        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-          <slot></slot>
+      <LayoutHeader v-model:collapsed="collapsed" />
+      <a-layout-content class="content">
+        <div class="content-container">
+          <router-view></router-view>
         </div>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+        Ant Design ©2023 Created by Ant UED
       </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
 
 <style scoped>
-#components-layout-demo-side .logo {
-  height: 32px;
+.layout {
+  min-height: 100vh;
+}
+
+#components-layout-demo-side {
+  height: 48px;
   margin: 16px;
   background: rgba(255, 255, 255, 0.3);
 }
@@ -79,7 +48,50 @@ const selectedKeys = ref<string[]>(['1'])
 .site-layout .site-layout-background {
   background: #fff;
 }
+
 [data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;
+}
+
+
+.logo {
+  height: 64px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.logo img {
+  height: 32px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.logo-small {
+  height: 24px !important;
+}
+
+.logo h1 {
+  color: #fff;
+  font-size: 18px;
+  margin: 0;
+  white-space: nowrap;
+  display: none;
+}
+
+.content {
+  margin: 24px 16px;
+  min-height: 280px;
+}
+
+.content-container {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+  border-radius: 2px;
 }
 </style>
